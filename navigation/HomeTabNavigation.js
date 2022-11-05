@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Home } from '../screens/Home';
-import { Profile } from '../screens/Profile';
+import { MyJobs } from '../screens/MyJobs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../helpers/theme';
+import HeaderTab from '../components/HeaderTab';
 
 const Tab = createBottomTabNavigator();
 
@@ -12,13 +13,14 @@ export const HomeTabNavigation = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
+        header: HeaderTab,
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
           if (route.name === 'Home') {
             iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'Profile') {
-            iconName = focused ? 'person' : 'person-outline';
+          } else if (route.name === 'Jobs') {
+            iconName = focused ? 'briefcase' : 'briefcase-outline';
           }
 
           return (
@@ -36,11 +38,10 @@ export const HomeTabNavigation = () => {
         },
 
         headerTitleAlign: 'center',
-        headerShown: false,
       })}
     >
-      <Tab.Screen name="Home" component={Home} options={{ title: 'Home' }} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Jobs" component={MyJobs} />
     </Tab.Navigator>
   );
 };

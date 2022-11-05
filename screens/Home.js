@@ -1,23 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ProjectList } from '../components/ProjectList';
-import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../helpers/theme';
 
 export const Home = () => {
+  const [projects] = useState([
+    {
+      id: 1,
+      name: 'Perbaikan pagar gedung sekolah',
+      workHours: 7,
+      totalWorker: 5,
+      cost: 1000000,
+      status: 'active',
+      UserId: 1,
+      long: 2901,
+      lat: 291,
+      categoryId: 1,
+    },
+    {
+      id: 2,
+      name: 'gas test',
+      workHours: 7,
+      totalWorker: 5,
+      cost: 1000000,
+      status: 'inactive',
+      UserId: 1,
+      long: 2901,
+      lat: 291,
+      categoryId: 1,
+    },
+  ]);
+
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Ionicons name="person-circle-outline" size={30} color="black" style={{ marginRight: 10 }} />
-        <Text>Hello, Ujang</Text>
-      </View>
       <Text style={styles.text}>Available Projects</Text>
-      <ProjectList />
+      <ProjectList projects={projects} renderOn={'home'} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, marginLeft: 30, marginTop: 20 },
+  container: { flex: 1, marginHorizontal: 30, marginTop: 20 },
   text: { fontFamily: theme.font.bold, fontSize: 18 },
 });

@@ -1,7 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 
-export const Profile = () => {
+export const MyJobs = () => {
   return (
     <View></View>
   )

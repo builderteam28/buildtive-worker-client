@@ -4,6 +4,8 @@ export const theme = {
     green: '#00BA1E',
     red: '#CA1D1D',
     blue: '#1B50B7',
+    white: '#FFFFFF',
+    black: '#000000',
   },
   font: {
     thin: 'Raleway_100Thin',
