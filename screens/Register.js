@@ -41,7 +41,7 @@ export const Register = () => {
     {
       id: 5,
       label: 'Painting',
-      name: 'Painting',
+      value: 'Painting',
     },
     {
       id: 6,
