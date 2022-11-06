@@ -16,44 +16,58 @@ export const ProjectCard = ({ renderOn = 'home', item, useStatus = false }) => {
     });
   };
 
-  // if (renderOn === 'home') {
-  return (
-    <TouchableOpacity onPress={onPressDetail} style={styles.container}>
-      <View style={styles.titleButtonContainer}>
-        <View style={{ flex: 1 }}>
-          <Text style={{ fontFamily: theme.font.bold }}>{item.name}</Text>
-        </View>
-        {renderOn === 'jobs' ? (
-          <View style={[styles.statusContainer, { backgroundColor: item.status === 'active' ? theme.colors.green : theme.colors.red }]}>
-            <Text style={{ fontFamily: theme.font.bold, color: theme.colors.white }}>{item.status[0].toUpperCase() + item.status.substring(1)}</Text>
+  const render = () => {
+    return (
+      <>
+        <View style={styles.titleButtonContainer}>
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontFamily: theme.font.bold }}>{item.name}</Text>
           </View>
-        ) : undefined}
-      </View>
-      <View style={styles.dataContainer}>
-        <View style={styles.dataItem}>
-          <Ionicons name="people" size={15} color="black" style={styles.iconItem} />
-          <Text style={styles.textItem}>abc</Text>
+          {renderOn === 'jobs' ? (
+            <View style={[styles.statusContainer, { backgroundColor: item.status === 'active' ? theme.colors.green : theme.colors.red }]}>
+              <Text style={{ fontFamily: theme.font.bold, color: theme.colors.white }}>
+                {item.status[0].toUpperCase() + item.status.substring(1)}
+              </Text>
+            </View>
+          ) : undefined}
         </View>
-        <View style={styles.dataItem}>
-          <MaterialIcons name="attach-money" size={15} color="black" style={styles.iconItem} />
-          <Text style={styles.textItem}>acas</Text>
+        <View style={styles.dataContainer}>
+          <View style={styles.dataItem}>
+            <Ionicons name="people" size={15} color="black" style={styles.iconItem} />
+            <Text style={styles.textItem}>abc</Text>
+          </View>
+          <View style={styles.dataItem}>
+            <MaterialIcons name="attach-money" size={15} color="black" style={styles.iconItem} />
+            <Text style={styles.textItem}>acas</Text>
+          </View>
+          <View style={styles.dataItem}>
+            <AntDesign name="clockcircle" size={15} color="black" style={styles.iconItem} />
+            <Text style={styles.textItem}>dwads</Text>
+          </View>
         </View>
-        <View style={styles.dataItem}>
-          <AntDesign name="clockcircle" size={15} color="black" style={styles.iconItem} />
-          <Text style={styles.textItem}>dwads</Text>
+        <View style={styles.titleButtonContainer}>
+          <Text>Category Name</Text>
+          {renderOn === 'jobs' ? (
+            <TouchableOpacity onPress={onPressDetail} style={[styles.statusContainer, { backgroundColor: theme.colors.black }]}>
+              <Text style={styles.buttonDetail}>Details</Text>
+            </TouchableOpacity>
+          ) : undefined}
         </View>
-      </View>
-      <View style={styles.titleButtonContainer}>
-        <Text>Category Name</Text>
-        {renderOn === 'jobs' ? (
-          <TouchableOpacity style={[styles.statusContainer, { backgroundColor: theme.colors.black }]}>
-            <Text style={styles.buttonDetail}>Details</Text>
-          </TouchableOpacity>
-        ) : undefined}
-      </View>
-    </TouchableOpacity>
-  );
-  // }
+      </>
+    );
+  };
+
+  if (renderOn === 'home') {
+    return (
+      <TouchableOpacity onPress={onPressDetail} style={styles.container}>
+        {render()}
+      </TouchableOpacity>
+    );
+  }
+
+  if (renderOn === 'jobs') {
+    return <View style={styles.container}>{render()}</View>;
+  }
 };
 
 const styles = StyleSheet.create({

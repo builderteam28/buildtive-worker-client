@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Location from 'expo-location';
-import MapView from 'react-native-maps';
+import MapView, { Callout, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { ActivityIndicator, Dimensions, StyleSheet, Text, View } from 'react-native';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -10,10 +10,11 @@ export default function MapDetail() {
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
+  // LOCATION "latitude": -6.1753917, "longitude": 106.8271517,
 
   useEffect(() => {
     (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
+      let { status } = await Location.requestBackgroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
         setLoading(false);
@@ -27,16 +28,24 @@ export default function MapDetail() {
   }, []);
 
   if (location && !loading && !errorMsg) {
-    console.log(location);
     return (
       <View style={styles.container}>
         <MapView
+          provider={PROVIDER_GOOGLE}
           style={styles.map}
-          initialRegion={{ latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.04, longitudeDelta: 0.05 }}
-        />
+          initialRegion={{ latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.01, longitudeDelta: 0.01 }}
+        >
+          <Marker
+            coordinate={{
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+            }}
+            pinColor="black"
+          ></Marker>
+        </MapView>
       </View>
     );
-  } else if (loading && !errorMsg) {
+  } else if (!loading && !errorMsg) {
     return (
       <View style={styles.container}>
         <ActivityIndicator size="large" color={theme.colors.primary} />
