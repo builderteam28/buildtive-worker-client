@@ -16,26 +16,41 @@ export const ProjectDetail = ({ route }) => {
     <View style={styles.container}>
       <MapDetail />
 
-      <Text style={styles.title}>Perbaikan pagar gedung sekolah</Text>
-      <Text style={styles.category}>Category Name</Text>
+      <View
+        style={{
+          backgroundColor: 'white',
+          width: '100%',
+          paddingHorizontal: '10%',
+          paddingTop: '10%',
+          borderTopLeftRadius: 25,
+          borderTopRightRadius: 25,
+        }}
+      >
+        <Text style={styles.title}>Perbaikan pagar gedung sekolah</Text>
+        <Text style={styles.category}>Category Name</Text>
 
-      <View style={styles.dataContainer}>
-        <View style={styles.dataItem}>
-          <Ionicons name="people" size={15} color="black" style={styles.iconItem} />
-          <Text style={styles.textItem}>abc</Text>
-        </View>
-        <View style={styles.dataItem}>
-          <MaterialIcons name="attach-money" size={15} color="black" style={styles.iconItem} />
-          <Text style={styles.textItem}>acas</Text>
-        </View>
-        <View style={styles.dataItem}>
-          <AntDesign name="clockcircle" size={15} color="black" style={styles.iconItem} />
-          <Text style={styles.textItem}>dwads</Text>
-        </View>
-        <View>
-          <TouchableOpacity style={styles.button}>
-            <Text>Apply this job</Text>
-          </TouchableOpacity>
+        <View style={styles.dataContainer}>
+          <View style={styles.dataItem}>
+            <Ionicons name="people" size={15} color="black" style={styles.iconItem} />
+            <Text style={styles.textItem}>abc</Text>
+          </View>
+          <View style={styles.dataItem}>
+            <MaterialIcons name="attach-money" size={15} color="black" style={styles.iconItem} />
+            <Text style={styles.textItem}>acas</Text>
+          </View>
+          <View style={styles.dataItem}>
+            <AntDesign name="clockcircle" size={15} color="black" style={styles.iconItem} />
+            <Text style={styles.textItem}>dwads</Text>
+          </View>
+          <View style={{ marginVertical: 15, height: 100 }}>
+            <Text style={[{ fontFamily: theme.font.medium }]}>Description</Text>
+            <Text></Text>
+          </View>
+          <View>
+            <TouchableOpacity style={[styles.button, { shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }]}>
+              <Text style={{ fontFamily: theme.font.bold }}>Apply this job</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </View>
@@ -44,7 +59,7 @@ export const ProjectDetail = ({ route }) => {
 
 const buttonBase = { alignItems: 'center', justifyContent: 'center', paddingVertical: 8, borderRadius: 25 };
 const styles = StyleSheet.create({
-  container: { flex: 1, marginHorizontal: 30 },
+  container: { flex: 1 },
   title: { fontFamily: theme.font.bold, fontSize: 18 },
   category: { fontFamily: theme.font.medium, fontSize: 13 },
   dataContainer: {
@@ -64,6 +79,6 @@ const styles = StyleSheet.create({
   button: {
     ...buttonBase,
     backgroundColor: theme.colors.primary,
-    marginVertical: 20
+    marginVertical: 20,
   },
 });

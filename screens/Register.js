@@ -74,9 +74,9 @@ export const Register = () => {
   return (
     <ScrollView style={{ marginHorizontal: 30, flex: 1 }}>
       <View style={{ flex: 1 }}>
-        <View style={{ marginHorizontal: 20, marginBottom: 30 }}>
+        {/* <View style={{ marginHorizontal: 20, marginBottom: 30 }}>
           <Text style={styles.title}>Create User Account</Text>
-        </View>
+        </View> */}
         <View style={styles.inputContainer}>
           <Text style={styles.text}>Email</Text>
           <TextInput style={styles.textInput} onChangeText={(text) => handleChange('email', text)} />

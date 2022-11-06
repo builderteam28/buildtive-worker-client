@@ -6,6 +6,7 @@ export const theme = {
     blue: '#1B50B7',
     white: '#FFFFFF',
     black: '#000000',
+    grey: '#272727',
   },
   font: {
     thin: 'Raleway_100Thin',

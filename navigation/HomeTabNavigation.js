@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../helpers/theme';
 import HeaderTab from '../components/HeaderTab';
+import { ProfileWorker } from '../screens/ProfileWorker';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,6 +22,8 @@ export const HomeTabNavigation = () => {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Jobs') {
             iconName = focused ? 'briefcase' : 'briefcase-outline';
+          } else if (route.name === 'Profile') {
+            iconName = focused ? 'person' : 'person-outline';
           }
 
           return (
@@ -42,6 +45,7 @@ export const HomeTabNavigation = () => {
     >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Jobs" component={MyJobs} />
+      <Tab.Screen name="Profile" component={ProfileWorker} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 };

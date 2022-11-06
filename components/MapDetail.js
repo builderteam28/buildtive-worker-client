@@ -6,7 +6,10 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { theme } from '../helpers/theme';
 
-export default function MapDetail() {
+export default function MapDetail({ lat, long }) {
+  const LAT = lat ?? -6.1753917;
+  const LONG = long ?? 106.8271517;
+
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
@@ -33,12 +36,17 @@ export default function MapDetail() {
         <MapView
           provider={PROVIDER_GOOGLE}
           style={styles.map}
-          initialRegion={{ latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.01, longitudeDelta: 0.01 }}
+          // initialRegion={{ latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.01, longitudeDelta: 0.01 }}
+          initialRegion={{ latitude: LAT, longitude: LONG, latitudeDelta: 0.01, longitudeDelta: 0.01 }}
         >
           <Marker
+            // coordinate={{
+            //   latitude: location.coords.latitude,
+            //   longitude: location.coords.longitude,
+            // }}
             coordinate={{
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
+              latitude: LAT,
+              longitude: LONG,
             }}
             pinColor="black"
           ></Marker>
@@ -70,6 +78,6 @@ const styles = StyleSheet.create({
   },
   map: {
     width: Dimensions.get('window').width,
-    height: '100%',
+    height: Dimensions.get('window').height,
   },
 });
