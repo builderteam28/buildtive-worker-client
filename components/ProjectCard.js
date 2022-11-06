@@ -5,11 +5,20 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 export const ProjectCard = ({ renderOn = 'home', item, useStatus = false }) => {
+  const navigation = useNavigation();
+
+  const onPressDetail = () => {
+    navigation.navigate('ProjectDetail', {
+      id: item.id,
+    });
+  };
+
   // if (renderOn === 'home') {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity onPress={onPressDetail} style={styles.container}>
       <View style={styles.titleButtonContainer}>
         <View style={{ flex: 1 }}>
           <Text style={{ fontFamily: theme.font.bold }}>{item.name}</Text>
