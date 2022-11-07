@@ -1,12 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, View, Text, TextInput } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { theme } from '../helpers/theme';
+import { loginSubmit } from '../stores/actions/userActions';
+// import { getDeviceId } from 'react-native-device-info';
 
 export const Login = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [loginForm, setLoginForm] = useState({
-    username: '',
+    email: '',
     password: '',
   });
 
@@ -15,7 +19,14 @@ export const Login = () => {
   };
 
   const handleSubmit = () => {
-    console.log(loginForm);
+    dispatch(loginSubmit(loginForm)).then((data) => {
+      if (data) {
+        navigation.navigate('HomeTab');
+      }
+    });
+  };
+
+  const changePage = () => {
     navigation.navigate('HomeTab');
   };
 
@@ -31,16 +42,21 @@ export const Login = () => {
         </View>
         <TextInput
           style={[styles.text, styles.textInput, { marginBottom: 10 }]}
-          placeholder="Username"
-          onChangeText={(text) => handleChange('username', text)}
+          placeholder="Email"
+          onChangeText={(text) => handleChange('email', text)}
         />
-        <TextInput secureTextEntry style={[styles.text, styles.textInput]} placeholder="Password" onChangeText={(text) => handleChange('password', text)} />
+        <TextInput
+          secureTextEntry
+          style={[styles.text, styles.textInput]}
+          placeholder="Password"
+          onChangeText={(text) => handleChange('password', text)}
+        />
       </View>
       <View style={{ flex: 1, justifyContent: 'center' }}>
         <TouchableOpacity style={[styles.button, { marginBottom: 10 }]} onPress={handleSubmit}>
           <Text>Log in</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonOutline} onPress={handleSubmit}>
+        <TouchableOpacity style={styles.buttonOutline} onPress={changePage}>
           <Text>Log in with Google</Text>
         </TouchableOpacity>
         <View style={{ alignItems: 'center', marginTop: 10 }}>

@@ -1,9 +1,12 @@
 import { useFonts, Raleway_100Thin, Raleway_400Regular, Raleway_500Medium, Raleway_600SemiBold, Raleway_700Bold } from '@expo-google-fonts/raleway';
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import 'react-native-gesture-handler';
 import { MainStackNavigation } from './navigation/MainStackNavigation';
 import { NavigationContainer } from '@react-navigation/native';
+import { Provider } from 'react-redux';
+import store from './stores';
+import * as Notifications from 'expo-notifications';
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -18,12 +21,22 @@ export default function App() {
     return null;
   }
 
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    }),
+  });
+
   return (
-    <NavigationContainer theme={ReactNavTheme}>
-      <SafeAreaView style={styles.container}>
-        <MainStackNavigation />
-      </SafeAreaView>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer theme={ReactNavTheme}>
+        <SafeAreaView style={styles.container}>
+          <MainStackNavigation />
+        </SafeAreaView>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

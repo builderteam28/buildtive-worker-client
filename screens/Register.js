@@ -1,19 +1,24 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useRef, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View, Button, Text, TextInput } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Text, TextInput, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
 import { DatePicker } from '../components/DatePicker';
 import Dropdown from '../components/Dropdown';
+import errorFormEmptyChecker from '../helpers/errorFormEmptyChecker';
 import { theme } from '../helpers/theme';
+import { registerSubmit } from '../stores/actions/userActions';
 
 export const Register = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [registerForm, setRegisterForm] = useState({
     email: '',
-    username: '',
     password: '',
+    fullName: '',
+    address: '',
     phoneNumber: '',
-    dob: '',
+    dateOfBirth: '',
     numberId: '',
     category: '',
   });
@@ -60,15 +65,25 @@ export const Register = () => {
     // console.log(date)
     setRegisterForm({
       ...registerForm,
-      dob: date,
+      dateOfBirth: date,
     });
   };
   const handleChange = (name, value) => {
     setRegisterForm({ ...registerForm, [name]: value });
   };
   const handleSubmit = () => {
-    console.log(registerForm);
-    navigation.navigate('Login');
+    const errors = errorFormEmptyChecker(registerForm);
+
+    if (errors.length > 0) {
+      return;
+    }
+
+    dispatch(registerSubmit(registerForm)).then((data) => {
+      if (data) {
+        Alert.alert('Success', 'Your account successfully registered.');
+        navigation.navigate('Login');
+      }
+    });
   };
 
   return (
@@ -87,7 +102,11 @@ export const Register = () => {
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.text}>Full Name</Text>
-          <TextInput style={styles.textInput} onChangeText={(text) => handleChange('username', text)} />
+          <TextInput style={styles.textInput} onChangeText={(text) => handleChange('fullName', text)} />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.text}>Address</Text>
+          <TextInput style={styles.textInput} onChangeText={(text) => handleChange('address', text)} />
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.text}>Phone Number</Text>
@@ -95,14 +114,20 @@ export const Register = () => {
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.text}>Date of Birth</Text>
-          <DatePicker dateValue={registerForm.dob} onChangeDate={onChangeDob} />
+          <DatePicker dateValue={registerForm.dateOfBirth} onChangeDate={onChangeDob} />
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.text}>ID Number</Text>
           <TextInput style={styles.textInput} onChangeText={(text) => handleChange('numberId', text)} />
         </View>
         <View style={styles.inputContainer}>
-          <Dropdown data={categories} title={'Your job category'} onChange={onChangeSelect} value={registerForm.category} />
+          <Dropdown
+            data={categories}
+            placeholder={'Select Category'}
+            title={'Your job category'}
+            onChange={onChangeSelect}
+            value={registerForm.category}
+          />
         </View>
         <View style={[styles.inputContainer, { paddingBottom: 10 }]}>
           <TouchableOpacity style={styles.button} onPress={handleSubmit}>

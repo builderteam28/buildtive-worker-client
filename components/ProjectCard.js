@@ -24,8 +24,8 @@ export const ProjectCard = ({ renderOn = 'home', item, useStatus = false }) => {
             <Text style={{ fontFamily: theme.font.bold }}>{item.name}</Text>
           </View>
           {renderOn === 'jobs' ? (
-            <View style={[styles.statusContainer, { backgroundColor: item.status === 'active' ? theme.colors.green : theme.colors.red }]}>
-              <Text style={{ fontFamily: theme.font.bold, color: theme.colors.white }}>
+            <View style={[styles.statusContainer, { backgroundColor: theme.colors.white }]}>
+              <Text style={{ fontFamily: theme.font.bold }}>
                 {item.status[0].toUpperCase() + item.status.substring(1)}
               </Text>
             </View>
