@@ -1,21 +1,46 @@
-import React, { useCallback } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Header from '../components/Header';
 import { ProjectList } from '../components/ProjectList';
 import { theme } from '../helpers/theme';
-import { getAllInactiveProjects } from '../stores/actions/projectActions';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { getAllInactiveProjects, getProjectDetails } from '../stores/actions/projectActions';
+import { useFocusEffect } from '@react-navigation/native';
 
 export const Home = () => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
   const { projects } = useSelector((state) => state.project);
 
   useFocusEffect(
     useCallback(() => {
-      dispatch(getAllInactiveProjects());
+      dispatch(getAllInactiveProjects())
+        .then((data) => {
+          console.log(data, "<<data")
+          if (data) {
+            setIsLoading(false);
+          }
+        })
+        .catch(() => {
+          setIsLoading(false);
+        });
     }, [])
   );
+
+  if (isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: '#fff',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </View>
+    );
+  }
 
   return (
     <>

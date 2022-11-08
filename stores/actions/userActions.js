@@ -4,7 +4,9 @@ import errorHandler from '../../helpers/errorHandler';
 import globalBaseURL from '../../helpers/globalBaseUrl';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
+import * as Location from 'expo-location';
 import { Platform } from 'react-native';
+import { PROFILE_FETCH, SET_LOCATION, SET_USERNAME } from './actionTypes';
 
 async function registerForPushNotificationsAsync() {
   let token;
@@ -20,7 +22,7 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
+    // console.log(token);
   } else {
     alert('Must use physical device for Push Notifications');
   }
@@ -51,6 +53,9 @@ export const loginSubmit = (payload) => {
         });
 
         await AsyncStorage.setItem('access_token', data.access_token);
+
+        dispatch({ type: SET_USERNAME, payload: data.fullName });
+
         return data;
       });
     } catch (error) {
@@ -83,5 +88,57 @@ export const registerSubmit = (payload) => {
       .catch((err) => {
         errorHandler(err);
       });
+  };
+};
+
+export const getUser = (payload) => {
+  return async (dispatch, getState) => {
+    const access_token = await AsyncStorage.getItem('access_token');
+    return axios({
+      method: 'GET',
+      url: globalBaseURL + '/workers',
+      headers: { access_token },
+    })
+      .then(({ data }) => {
+        let avgRating = data.Ratings.reduce((previousValue, currentValue) => {
+          const val = parseInt(previousValue) + parseInt(currentValue.ratings);
+          return val;
+        }, 0);
+        avgRating = avgRating / data.Ratings.length;
+        data.avgRating = avgRating;
+        data.totalRating = data.Ratings.length;
+        dispatch({
+          type: PROFILE_FETCH,
+          payload: data,
+        });
+        return data;
+      })
+      .catch((err) => {
+        errorHandler(err);
+        return err;
+      });
+  };
+};
+
+export const getLocation = () => {
+  return async (dispatch, getState) => {
+    try {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        throw { message: 'Failed to get location' };
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      let regionName = await Location.reverseGeocodeAsync({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+      dispatch({
+        type: SET_LOCATION,
+        payload: JSON.stringify(regionName[0]['city']).replace(/"/g, ''),
+      });
+    } catch (error) {
+      console.log(error, ' <<getLocation');
+      errorHandler(error);
+    }
   };
 };

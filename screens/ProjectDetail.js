@@ -1,20 +1,66 @@
-import React, { useEffect } from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../helpers/theme';
 import MapDetail from '../components/MapDetail';
+import { applyProject, getProjectDetails } from '../stores/actions/projectActions';
+import { useFocusEffect } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const ProjectDetail = ({ route }) => {
+  const dispatch = useDispatch();
+  const { project } = useSelector((state) => state.project);
+  const [isLoading, setIsLoading] = useState(true);
   const { id } = route.params;
 
-  useEffect(() => {}, []);
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getProjectDetails(id))
+        .then((data) => {
+          console.log(data, '<<data');
+          if (data) {
+            setIsLoading(false);
+          }
+        })
+        .catch(() => {
+          setIsLoading(false);
+        });
+    }, [])
+  );
+
+  const handleApply = () => {
+    dispatch(applyProject(id))
+      .then((data) => {
+        if (data) {
+          setIsLoading(false);
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
+  };
+
+  if (isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: '#fff',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      <MapDetail />
+      <MapDetail lat={project.lat} long={project.long} />
 
       <View
         style={{
@@ -28,42 +74,37 @@ export const ProjectDetail = ({ route }) => {
           borderTopRightRadius: 25,
         }}
       >
-        <Text style={styles.title}>Perbaikan pagar gedung sekolah</Text>
-        <Text style={styles.category}>Category Name</Text>
+        <Text style={styles.title}>{project.name}</Text>
+        <Text style={styles.category}>{project.Category.name}</Text>
 
         <View style={styles.dataContainer}>
           <View style={styles.dataItem}>
             <Ionicons name="location-sharp" size={15} color="black" style={styles.iconItem} />
-            <Text style={styles.textItem}>Jalan Tikus No.15, Kebon Jeruk, Jakarta Barat</Text>
+            <Text style={styles.textItem}>{project.address}</Text>
           </View>
           <View style={styles.dataItem}>
             <Ionicons name="people" size={15} color="black" style={styles.iconItem} />
-            <Text style={styles.textItem}>3 / 20</Text>
+            <Text style={styles.textItem}>{project.acceptedWorker + '/' + project.totalWorker}</Text>
           </View>
           <View style={styles.dataItem}>
             <MaterialIcons name="attach-money" size={15} color="black" style={styles.iconItem} />
-            <Text style={styles.textItem}>100000</Text>
+            <Text style={styles.textItem}>{project.cost}</Text>
           </View>
           <View style={styles.dataItem}>
             <AntDesign name="clockcircle" size={15} color="black" style={styles.iconItem} />
-            <Text style={styles.textItem}>dwads</Text>
+            <Text style={styles.textItem}>{project.tenor} days</Text>
           </View>
           <View style={{ marginVertical: 20, height: 120 }}>
             <Text style={[{ fontFamily: theme.font.bold }]}>Description</Text>
             <ScrollView>
-              <Text>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                culpa qui officia deserunt mollit anim id est laborum.
-              </Text>
+              <Text>{project.description}</Text>
             </ScrollView>
           </View>
         </View>
       </View>
       <View>
-        <TouchableOpacity style={[styles.button, { shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }]}>
-          <Text style={{ fontFamily: theme.font.bold }}>Apply this job</Text>
+        <TouchableOpacity onPress={() => handleApply()} style={[styles.button, { shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }]}>
+          <Text style={{ fontFamily: theme.font.bold }}>Apply for this job</Text>
         </TouchableOpacity>
       </View>
     </View>
