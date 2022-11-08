@@ -43,7 +43,7 @@ export const ProfileWorker = () => {
       <View style={styles.containerInfo}>
         <Octicons name="feed-person" size={80} color="#FFC536" style={{ marginBottom: 10 }} />
         <Text style={{ fontSize: 20, fontFamily: theme.font.bold }}>{profile.fullName}</Text>
-        <Text style={{ fontSize: 18, fontFamily: theme.font.regular }}>Work Category: Plumber</Text>
+        <Text style={{ fontSize: 18, fontFamily: theme.font.regular }}>Work Category: {profile.WorkerCategories[0].Category.name}</Text>
         <Text style={{ fontSize: 16, fontFamily: theme.font.regular }}>
           <FontAwesome name="phone" size={14} color="black" style={{ marginRight: 10 }} /> {profile.phoneNumber}
         </Text>
@@ -91,7 +91,7 @@ export const ProfileWorker = () => {
             }}
           >
             <Text style={styles.text}>My balances</Text>
-            <Text style={styles.text}>1000000</Text>
+            <Text style={styles.text}>{profile.balance ?? 0}</Text>
           </View>
         </View>
       </View>

@@ -100,13 +100,17 @@ export const getUser = (payload) => {
       headers: { access_token },
     })
       .then(({ data }) => {
-        let avgRating = data.Ratings.reduce((previousValue, currentValue) => {
+        let avgRating = data.Ratings?.reduce((previousValue, currentValue) => {
           const val = parseInt(previousValue) + parseInt(currentValue.ratings);
           return val;
         }, 0);
-        avgRating = avgRating / data.Ratings.length;
+        if (avgRating) {
+          avgRating = avgRating / data.Ratings.length;
+        }
         data.avgRating = avgRating;
-        data.totalRating = data.Ratings.length;
+        if (Array.isArray(data?.Ratings)) {
+          data.totalRating = data?.Ratings.length;
+        }
         dispatch({
           type: PROFILE_FETCH,
           payload: data,
