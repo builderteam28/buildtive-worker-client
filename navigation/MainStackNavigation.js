@@ -8,6 +8,7 @@ import { Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { theme } from '../helpers/theme';
 import { Ionicons } from '@expo/vector-icons';
+import { Chat } from '../screens/Chat';
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,7 @@ export const MainStackNavigation = () => {
       />
       <Stack.Screen name="HomeTab" component={HomeTabNavigation} options={{ headerShown: false }} />
       <Stack.Screen name="ProjectDetail" component={ProjectDetail} options={{ header: HeaderProjectDetail }} />
+      <Stack.Screen name="Chat" component={Chat} />
     </Stack.Navigator>
   );
 };

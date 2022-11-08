@@ -1,35 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { ProjectList } from '../components/ProjectList';
 import { theme } from '../helpers/theme';
+import { getAllJobsProjectWorker } from '../stores/actions/projectActions';
 
 export const MyJobs = () => {
-  const [projects] = useState([
-    {
-      id: 1,
-      name: 'Perbaikan pagar gedung sekolah',
-      workHours: 7,
-      totalWorker: 5,
-      cost: 1000000,
-      status: 'Applicant',
-      UserId: 1,
-      long: 2901,
-      lat: 291,
-      categoryId: 1,
-    },
-    {
-      id: 2,
-      name: 'gas test',
-      workHours: 7,
-      totalWorker: 5,
-      cost: 1000000,
-      status: 'Completed',
-      UserId: 1,
-      long: 2901,
-      lat: 291,
-      categoryId: 1,
-    },
-  ]);
+  const dispatch = useDispatch();
+  const { jobs: projects } = useSelector((state) => state.project);
+
+  useEffect(() => {
+    dispatch(getAllJobsProjectWorker());
+  }, []);
+
+  console.log(projects);
 
   return (
     <View style={styles.container}>
