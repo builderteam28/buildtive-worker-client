@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 
-export const ProjectCard = ({ renderOn = 'home', item, useStatus = false }) => {
+export const ProjectCard = ({ renderOn = 'home', item }) => {
   const navigation = useNavigation();
 
   const onPressDetail = () => {
@@ -16,25 +16,64 @@ export const ProjectCard = ({ renderOn = 'home', item, useStatus = false }) => {
     });
   };
 
-  const render = () => {
+  if (renderOn === 'home') {
+    const home = item;
     return (
-      <>
+      <TouchableOpacity onPress={onPressDetail} style={styles.container}>
         <View style={styles.titleButtonContainer}>
           <View style={{ flex: 1 }}>
-            <Text style={{ fontFamily: theme.font.bold }}>{item.name}</Text>
+            <Text style={{ fontFamily: theme.font.bold }}>{home.name}</Text>
           </View>
+        </View>
+        <View style={styles.titleButtonContainer}>
+          <Text
+            style={{
+              fontFamily: theme.font.regular,
+              fontSize: 13,
+            }}
+          >
+            {home.Category.name[0].toUpperCase() + home.Category.name.substring(1)}
+          </Text>
           {renderOn === 'jobs' ? (
-            <View style={[styles.statusContainer, { backgroundColor: theme.colors.white }]}>
-              <Text style={{ fontFamily: theme.font.bold }}>
-                {item.status[0].toUpperCase() + item.status.substring(1)}
-              </Text>
-            </View>
+            <TouchableOpacity onPress={onPressDetail} style={[styles.statusContainer, { backgroundColor: theme.colors.black }]}>
+              <Text style={styles.buttonDetail}>Details</Text>
+            </TouchableOpacity>
           ) : undefined}
         </View>
         <View style={styles.dataContainer}>
           <View style={styles.dataItem}>
             <Ionicons name="people" size={15} color="black" style={styles.iconItem} />
-            <Text style={styles.textItem}>abc</Text>
+            <Text style={styles.textItem}>{home.acceptedWorker + '/' + home.totalWorker}</Text>
+          </View>
+          <View style={styles.dataItem}>
+            <MaterialIcons name="attach-money" size={15} color="black" style={styles.iconItem} />
+            <Text style={styles.textItem}>{home.cost}</Text>
+          </View>
+          <View style={styles.dataItem}>
+            <AntDesign name="clockcircle" size={15} color="black" style={styles.iconItem} />
+            <Text style={styles.textItem}>{home.tenor ? home.tenor + ' Days' : undefined}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
+  if (renderOn === 'jobs') {
+    const job = item;
+    return (
+      <TouchableOpacity style={styles.container} onPress={onPressDetail}>
+        <View style={styles.titleButtonContainer}>
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontFamily: theme.font.bold }}>{job.Project.name}</Text>
+          </View>
+          <View style={[styles.statusContainer, { backgroundColor: theme.colors.white }]}>
+            <Text style={{ fontFamily: theme.font.bold }}>{job.status[0].toUpperCase() + job.status.substring(1)}</Text>
+          </View>
+        </View>
+        <View style={styles.dataContainer}>
+          <View style={styles.dataItem}>
+            <Ionicons name="people" size={15} color="black" style={styles.iconItem} />
+            <Text style={styles.textItem}>{job.acceptedWorker + '/' + job.Project.totalWorker}</Text>
           </View>
           <View style={styles.dataItem}>
             <MaterialIcons name="attach-money" size={15} color="black" style={styles.iconItem} />
@@ -45,28 +84,16 @@ export const ProjectCard = ({ renderOn = 'home', item, useStatus = false }) => {
             <Text style={styles.textItem}>dwads</Text>
           </View>
         </View>
-        <View style={styles.titleButtonContainer}>
-          <Text>Category Name</Text>
-          {renderOn === 'jobs' ? (
-            <TouchableOpacity onPress={onPressDetail} style={[styles.statusContainer, { backgroundColor: theme.colors.black }]}>
+        {/* <View style={styles.titleButtonContainer}>
+          <Text></Text> */}
+        {/* {renderOn === 'jobs' ? (
+            <TouchableOpacity  style={[styles.statusContainer, { backgroundColor: theme.colors.black }]}>
               <Text style={styles.buttonDetail}>Details</Text>
             </TouchableOpacity>
-          ) : undefined}
-        </View>
-      </>
-    );
-  };
-
-  if (renderOn === 'home') {
-    return (
-      <TouchableOpacity onPress={onPressDetail} style={styles.container}>
-        {render()}
+          ) : undefined} */}
+        {/* </View> */}
       </TouchableOpacity>
     );
-  }
-
-  if (renderOn === 'jobs') {
-    return <View style={styles.container}>{render()}</View>;
   }
 };
 

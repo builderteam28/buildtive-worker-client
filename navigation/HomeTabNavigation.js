@@ -5,7 +5,6 @@ import { MyJobs } from '../screens/MyJobs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../helpers/theme';
-import HeaderTab from '../components/HeaderTab';
 import { ProfileWorker } from '../screens/ProfileWorker';
 import { ChatList } from '../screens/ChatList';
 
@@ -15,7 +14,6 @@ export const HomeTabNavigation = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        header: HeaderTab,
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
@@ -42,14 +40,14 @@ export const HomeTabNavigation = () => {
         tabBarStyle: {
           ...styles.tabBar,
         },
-
+        headerShown: false,
         headerTitleAlign: 'center',
       })}
     >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Jobs" component={MyJobs} />
-      <Tab.Screen name="Profile" component={ProfileWorker} options={{ headerShown: false }} />
-      <Tab.Screen name="Chats" component={ChatList} options={{ headerShown: false }} />
+      <Tab.Screen name="Profile" component={ProfileWorker} />
+      <Tab.Screen name="Chats" component={ChatList} />
     </Tab.Navigator>
   );
 };

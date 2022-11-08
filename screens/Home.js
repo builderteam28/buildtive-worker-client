@@ -1,25 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import Header from '../components/Header';
 import { ProjectList } from '../components/ProjectList';
 import { theme } from '../helpers/theme';
 import { getAllInactiveProjects } from '../stores/actions/projectActions';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 export const Home = () => {
   const dispatch = useDispatch();
   const { projects } = useSelector((state) => state.project);
 
-  useEffect(() => {
-    dispatch(getAllInactiveProjects());
-  }, []);
-
-  console.log(projects)
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getAllInactiveProjects());
+    }, [])
+  );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Available Projects</Text>
-      <ProjectList projects={projects} renderOn={'home'} />
-    </View>
+    <>
+      <Header />
+      <View style={styles.container}>
+        <Text style={styles.text}>Available Projects</Text>
+        <ProjectList projects={projects} renderOn={'home'} />
+      </View>
+    </>
   );
 };
 

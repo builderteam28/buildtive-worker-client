@@ -1,9 +1,17 @@
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Octicons, MaterialIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { theme } from '../helpers/theme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
-export default function HeaderTab({ navigation, route, options }) {
+export default function Header() {
+  const navigation = useNavigation();
+  const logout = async () => {
+    await AsyncStorage.removeItem('access_token');
+    navigation.replace('Login');
+  };
+
   return (
     <View
       style={{
@@ -21,8 +29,8 @@ export default function HeaderTab({ navigation, route, options }) {
           <Text style={{ fontSize: 12 }}>Indonesia</Text>
         </View>
       </View>
-      <TouchableOpacity style={{ backgroundColor: theme.colors.black, padding: 10, borderRadius: 15 }}>
-        <MaterialIcons name="logout" size={18} color={theme.colors.white}/>
+      <TouchableOpacity onPress={logout} style={{ backgroundColor: theme.colors.black, padding: 10, borderRadius: 15 }}>
+        <MaterialIcons name="logout" size={18} color={theme.colors.white} />
       </TouchableOpacity>
     </View>
   );

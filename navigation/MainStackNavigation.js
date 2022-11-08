@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Register } from '../screens/Register';
 import { Login } from '../screens/Login';
@@ -9,10 +9,21 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { theme } from '../helpers/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { Chat } from '../screens/Chat';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createStackNavigator();
 
 export const MainStackNavigation = () => {
+  const [accessToken, setAccessToken] = useState(null);
+  useEffect(() => {
+    const getToken = async () => {
+      let access_token = await AsyncStorage.getItem('access_token');
+      setAccessToken(access_token);
+    };
+
+    getToken();
+  }, []);
+
   return (
     <Stack.Navigator>
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />

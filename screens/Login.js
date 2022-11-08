@@ -21,7 +21,7 @@ export const Login = () => {
   const handleSubmit = () => {
     dispatch(loginSubmit(loginForm)).then((data) => {
       if (data) {
-        navigation.navigate('HomeTab');
+        navigation.replace('HomeTab');
       }
     });
   };
