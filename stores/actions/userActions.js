@@ -6,7 +6,7 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import * as Location from 'expo-location';
 import { Platform } from 'react-native';
-import { PROFILE_FETCH, SET_LOCATION, SET_USERNAME } from './actionTypes';
+import { PROFILE_FETCH, SET_ACCESS_TOKEN, SET_LOCATION, SET_USERNAME } from './actionTypes';
 
 async function registerForPushNotificationsAsync() {
   let token;
@@ -43,7 +43,6 @@ export const loginSubmit = (payload) => {
   return async (dispatch, getState) => {
     try {
       return registerForPushNotificationsAsync().then(async (token) => {
-        console.log(token)
         const { data } = await axios(globalBaseURL + `/workers/login`, {
           method: 'POST',
           data: {
@@ -54,13 +53,16 @@ export const loginSubmit = (payload) => {
         });
 
         await AsyncStorage.setItem('access_token', data.access_token);
+        await AsyncStorage.setItem('fullName', data.fullName);
 
+        dispatch({ type: SET_ACCESS_TOKEN, payload: data.access_token });
         dispatch({ type: SET_USERNAME, payload: data.fullName });
 
         return data;
       });
     } catch (error) {
       errorHandler(error);
+      return error
     }
   };
 };
@@ -80,7 +82,7 @@ export const registerSubmit = (payload) => {
         address,
         birthDate: dateOfBirth,
         idNumber: numberId,
-        categoryId: category.id,
+        CategoryId: category.id,
       },
     })
       .then((data) => {

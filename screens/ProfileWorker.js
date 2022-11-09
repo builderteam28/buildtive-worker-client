@@ -1,5 +1,5 @@
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
-import { Octicons, FontAwesome, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { Octicons, FontAwesome } from '@expo/vector-icons';
 import { theme } from '../helpers/theme';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useState } from 'react';

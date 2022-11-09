@@ -16,7 +16,6 @@ export const Home = () => {
     useCallback(() => {
       dispatch(getAllInactiveProjects())
         .then((data) => {
-          console.log(data, '<<data');
           if (data) {
             setIsLoading(false);
           }

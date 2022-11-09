@@ -6,3 +6,5 @@ export const APPLY_PROJECT = 'project/applyProject'
 export const PROFILE_FETCH = 'worker/fetchOneProfile';
 export const SET_USERNAME = 'worker/setUsername';
 export const SET_LOCATION = 'worker/setLocation';
+export const SET_ACCESS_TOKEN = 'worker/setAccessToken';
+

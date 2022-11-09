@@ -1,9 +1,10 @@
-import { PROFILE_FETCH, SET_LOCATION, SET_USERNAME } from '../actions/actionTypes';
+import { PROFILE_FETCH, SET_ACCESS_TOKEN, SET_LOCATION, SET_USERNAME } from '../actions/actionTypes';
 
 const initialState = {
   username: '',
   location: '',
-  profile: {}
+  profile: {},
+  accessToken: ''
 };
 
 function userReducer(state = initialState, action) {
@@ -24,6 +25,12 @@ function userReducer(state = initialState, action) {
       return {
         ...state,
         profile: action.payload,
+      };
+    }
+    case SET_ACCESS_TOKEN: {
+      return {
+        ...state,
+        accessToken: action.payload,
       };
     }
     default:

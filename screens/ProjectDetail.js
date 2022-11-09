@@ -7,12 +7,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../helpers/theme';
 import MapDetail from '../components/MapDetail';
 import { applyProject, getProjectDetails } from '../stores/actions/projectActions';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import errorHandler from '../helpers/errorHandler';
 
 export const ProjectDetail = ({ route }) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const { project } = useSelector((state) => state.project);
   const [isLoading, setIsLoading] = useState(true);
   const { id, status } = route.params;
@@ -40,7 +40,7 @@ export const ProjectDetail = ({ route }) => {
     dispatch(applyProject(id))
       .then((data) => {
         if (data) {
-          Alert.alert('Success', 'Thank you for registering to this project', [{ text: 'OK', onPress: () => console.log('OK Pressed') }]);
+          Alert.alert('Success', 'Thank you for registering to this project', [{ text: 'OK', onPress: () => navigation.navigate('Jobs') }]);
           setIsLoading(false);
         }
       })
@@ -120,9 +120,11 @@ export const ProjectDetail = ({ route }) => {
         </View>
       </View>
       <View>
-        <TouchableOpacity onPress={() => handleApply()} style={[styles.button, { shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }]}>
-          <Text style={{ fontFamily: theme.font.bold }}>Apply for this job</Text>
-        </TouchableOpacity>
+        {!status ? (
+          <TouchableOpacity onPress={() => handleApply()} style={[styles.button, { shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }]}>
+            <Text style={{ fontFamily: theme.font.bold }}>Apply for this job</Text>
+          </TouchableOpacity>
+        ) : undefined}
       </View>
     </View>
   );

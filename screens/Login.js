@@ -1,7 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, View, Text, TextInput } from 'react-native';
 import { useDispatch } from 'react-redux';
+import IconBuildHub from '../components/IconBuildHub';
+import errorHandler from '../helpers/errorHandler';
 import { theme } from '../helpers/theme';
 import { loginSubmit } from '../stores/actions/userActions';
 
@@ -13,38 +15,27 @@ export const Login = () => {
     password: '',
   });
 
-  // useEffect(() => {
-  //   const getToken = async () => {
-  //     let access_token = await AsyncStorage.getItem('access_token');
-  //     return access_token;
-  //   };
-
-  //   const token = getToken();
-  //   if (token) {
-  //     navigation.replace('HomeTab');
-  //   }
-  // }, []);
-
   const handleChange = (name, value) => {
     setLoginForm({ ...loginForm, [name]: value });
   };
 
   const handleSubmit = () => {
-    dispatch(loginSubmit(loginForm)).then((data) => {
-      if (data) {
-        navigation.replace('HomeTab');
-      }
-    });
-  };
-
-  const changePage = () => {
-    navigation.navigate('HomeTab');
+    dispatch(loginSubmit(loginForm))
+      .then((data) => {
+        if (data) {
+          navigation.replace('HomeTab');
+        }
+      })
+      .catch((err) => {
+        errorHandler(err);
+      });
   };
 
   return (
     <View style={{ marginHorizontal: 30, flex: 1 }}>
-      <View style={{ flex: 1, justifyContent: 'center' }}>
+      <View style={{ marginBottom: 50, justifyContent: 'center' }}>
         <View style={{ marginBottom: 50, alignItems: 'center' }}>
+          <IconBuildHub />
           <Text style={styles.text}>Log in to</Text>
           <Text style={styles.text}>
             Your <Text style={styles.title}>BuildHub</Text>
@@ -63,13 +54,13 @@ export const Login = () => {
           onChangeText={(text) => handleChange('password', text)}
         />
       </View>
-      <View style={{ flex: 1, justifyContent: 'center' }}>
+      <View style={{ justifyContent: 'center' }}>
         <TouchableOpacity style={[styles.button, { marginBottom: 10 }]} onPress={handleSubmit}>
           <Text>Log in</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonOutline} onPress={changePage}>
+        {/* <TouchableOpacity style={styles.buttonOutline} onPress={changePage}>
           <Text>Log in with Google</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <View style={{ alignItems: 'center', marginTop: 10 }}>
           <Text>Don't have an account?</Text>
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
