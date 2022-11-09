@@ -47,7 +47,7 @@ export const HomeTabNavigation = () => {
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Jobs" component={MyJobs} />
       <Tab.Screen name="Profile" component={ProfileWorker} />
-      <Tab.Screen name="Chats" component={ChatList} />
+      {/* <Tab.Screen name="Chats" component={ChatList} /> */}
     </Tab.Navigator>
   );
 };

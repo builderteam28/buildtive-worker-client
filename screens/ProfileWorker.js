@@ -23,6 +23,10 @@ export const ProfileWorker = () => {
     }, [])
   );
 
+  const formatPrice = (price) => {
+    return 'Rp ' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',-';
+  };
+
   if (isLoading) {
     return (
       <View
@@ -48,50 +52,44 @@ export const ProfileWorker = () => {
           <FontAwesome name="phone" size={14} color="black" style={{ marginRight: 10 }} /> {profile.phoneNumber}
         </Text>
       </View>
-      <View style={{ flex: 2 }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+      <View style={{ flex: 2, marginHorizontal: '10%' }}>
+        <View>
           <View
             style={{
               flexDirection: 'column',
               justifyContent: 'center',
-              paddingHorizontal: 30,
-              paddingVertical: 10,
+              paddingVertical: 20,
               borderRadius: 10,
               backgroundColor: theme.colors.grey,
+              marginBottom: 30,
             }}
           >
             <View>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Ionicons name="star" size={20} color="gold" style={{ marginRight: 10 }} />
-                <Text style={[styles.text]}>{profile.avgRating}</Text>
+              <View style={{ alignItems: 'center' }}>
+                <Text style={[styles.text]}>Rating Overview</Text>
               </View>
-              <View>
-                <Text style={[styles.text]}>Rating</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={[styles.text]}>
+                  <Text style={([styles.text], { fontSize: 48 })}>{profile.avgRating}</Text>/5
+                </Text>
               </View>
             </View>
-            <View>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <MaterialIcons name="rate-review" size={20} color="white" style={{ marginRight: 10 }} />
-                <Text style={styles.text}>{profile.totalRating}</Text>
-              </View>
-              <View>
-                <Text style={styles.text}>Reviews</Text>
-              </View>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={styles.text}>{profile.totalRating} Ratings</Text>
             </View>
           </View>
+
           <View
             style={{
               flexDirection: 'column',
-              justifyContent: 'center',
+              paddingVertical: 20,
               alignItems: 'center',
-              paddingBottom: 10,
-              paddingHorizontal: 20,
               borderRadius: 10,
               backgroundColor: theme.colors.grey,
             }}
           >
             <Text style={styles.text}>My balances</Text>
-            <Text style={styles.text}>{profile.balance ?? 0}</Text>
+            <Text style={styles.text}>{formatPrice(profile.balance ?? 0)}</Text>
           </View>
         </View>
       </View>
@@ -111,7 +109,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   text: {
-    fontSize: 20,
+    fontSize: 15,
     fontFamily: theme.font.regular,
     color: theme.colors.white,
   },

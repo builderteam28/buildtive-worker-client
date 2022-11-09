@@ -24,19 +24,33 @@ export const MainStackNavigation = () => {
     getToken();
   }, []);
 
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-      <Stack.Screen
-        name="Register"
-        component={Register}
-        options={{ title: 'Create User Account', headerTitleStyle: { fontFamily: theme.font.medium } }}
-      />
-      <Stack.Screen name="HomeTab" component={HomeTabNavigation} options={{ headerShown: false }} />
-      <Stack.Screen name="ProjectDetail" component={ProjectDetail} options={{ header: HeaderProjectDetail }} />
-      <Stack.Screen name="Chat" component={Chat} />
-    </Stack.Navigator>
-  );
+  if (accessToken) {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="HomeTab" component={HomeTabNavigation} options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{ title: 'Create User Account', headerTitleStyle: { fontFamily: theme.font.medium } }}
+        />
+        <Stack.Screen name="ProjectDetail" component={ProjectDetail} options={{ header: HeaderProjectDetail }} />
+      </Stack.Navigator>
+    );
+  } else {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{ title: 'Create User Account', headerTitleStyle: { fontFamily: theme.font.medium } }}
+        />
+        <Stack.Screen name="HomeTab" component={HomeTabNavigation} options={{ headerShown: false }} />
+        <Stack.Screen name="ProjectDetail" component={ProjectDetail} options={{ header: HeaderProjectDetail }} />
+      </Stack.Navigator>
+    );
+  }
 };
 
 const HeaderProjectDetail = ({ navigation, route, options }) => {

@@ -53,6 +53,6 @@ export const MyJobs = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, marginHorizontal: 30, marginTop: 20 },
+  container: { flex: 1, marginHorizontal: 30, marginTop: 20, marginBottom: '30%' },
   text: { fontFamily: theme.font.bold, fontSize: 18 },
 });

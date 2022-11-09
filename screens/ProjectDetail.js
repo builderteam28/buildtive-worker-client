@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, StyleSheet, Text, View } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -9,12 +9,13 @@ import MapDetail from '../components/MapDetail';
 import { applyProject, getProjectDetails } from '../stores/actions/projectActions';
 import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import errorHandler from '../helpers/errorHandler';
 
 export const ProjectDetail = ({ route }) => {
   const dispatch = useDispatch();
   const { project } = useSelector((state) => state.project);
   const [isLoading, setIsLoading] = useState(true);
-  const { id } = route.params;
+  const { id, status } = route.params;
 
   useFocusEffect(
     useCallback(() => {
@@ -31,10 +32,15 @@ export const ProjectDetail = ({ route }) => {
     }, [])
   );
 
+  const formatPrice = (price) => {
+    return 'Rp ' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',-';
+  };
+
   const handleApply = () => {
     dispatch(applyProject(id))
       .then((data) => {
         if (data) {
+          Alert.alert('Success', 'Thank you for registering to this project', [{ text: 'OK', onPress: () => console.log('OK Pressed') }]);
           setIsLoading(false);
         }
       })
@@ -74,8 +80,19 @@ export const ProjectDetail = ({ route }) => {
           borderTopRightRadius: 25,
         }}
       >
-        <Text style={styles.title}>{project.name}</Text>
-        <Text style={styles.category}>{project.Category.name}</Text>
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.title}>{project.name}</Text>
+            <Text style={styles.category}>{project.Category.name}</Text>
+          </View>
+          <View>
+            {status ? (
+              <View style={[styles.statusContainer, { backgroundColor: theme.colors.black }]}>
+                <Text style={{ fontFamily: theme.font.bold, color: theme.colors.white }}>{status}</Text>
+              </View>
+            ) : undefined}
+          </View>
+        </View>
 
         <View style={styles.dataContainer}>
           <View style={styles.dataItem}>
@@ -88,7 +105,7 @@ export const ProjectDetail = ({ route }) => {
           </View>
           <View style={styles.dataItem}>
             <MaterialIcons name="attach-money" size={15} color="black" style={styles.iconItem} />
-            <Text style={styles.textItem}>{project.cost}</Text>
+            <Text style={styles.textItem}>{formatPrice(project.cost)}</Text>
           </View>
           <View style={styles.dataItem}>
             <AntDesign name="clockcircle" size={15} color="black" style={styles.iconItem} />
@@ -118,6 +135,14 @@ const styles = StyleSheet.create({
   category: { fontFamily: theme.font.medium, fontSize: 13 },
   dataContainer: {
     marginVertical: 15,
+  },
+  statusContainer: {
+    minWidth: 80,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   dataItem: {
     flexDirection: 'row',

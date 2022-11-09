@@ -1,10 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View, Text, TextInput } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { theme } from '../helpers/theme';
 import { loginSubmit } from '../stores/actions/userActions';
-// import { getDeviceId } from 'react-native-device-info';
 
 export const Login = () => {
   const dispatch = useDispatch();
@@ -13,6 +12,18 @@ export const Login = () => {
     email: '',
     password: '',
   });
+
+  // useEffect(() => {
+  //   const getToken = async () => {
+  //     let access_token = await AsyncStorage.getItem('access_token');
+  //     return access_token;
+  //   };
+
+  //   const token = getToken();
+  //   if (token) {
+  //     navigation.replace('HomeTab');
+  //   }
+  // }, []);
 
   const handleChange = (name, value) => {
     setLoginForm({ ...loginForm, [name]: value });

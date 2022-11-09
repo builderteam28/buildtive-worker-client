@@ -43,6 +43,7 @@ export const loginSubmit = (payload) => {
   return async (dispatch, getState) => {
     try {
       return registerForPushNotificationsAsync().then(async (token) => {
+        console.log(token)
         const { data } = await axios(globalBaseURL + `/workers/login`, {
           method: 'POST',
           data: {

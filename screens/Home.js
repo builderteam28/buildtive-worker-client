@@ -16,7 +16,7 @@ export const Home = () => {
     useCallback(() => {
       dispatch(getAllInactiveProjects())
         .then((data) => {
-          console.log(data, "<<data")
+          console.log(data, '<<data');
           if (data) {
             setIsLoading(false);
           }
@@ -54,6 +54,6 @@ export const Home = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, marginHorizontal: 30, marginTop: 20 },
+  container: { flex: 1, marginHorizontal: 30, marginTop: 20, marginBottom: '30%' },
   text: { fontFamily: theme.font.bold, fontSize: 18 },
 });
