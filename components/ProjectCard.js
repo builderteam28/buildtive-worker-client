@@ -18,17 +18,17 @@ export const ProjectCard = ({ renderOn = 'home', item }) => {
   const renderCategory = (categoryId) => {
     switch (categoryId) {
       case 1:
-        return <MaterialIcons name="house" size={60} color="black" />;
+        return <MaterialIcons name="house" size={60} color={theme.colors.grey} />;
       case 2:
-        return <MaterialCommunityIcons name="home-lightning-bolt" size={60} color="black" />;
+        return <MaterialCommunityIcons name="home-lightning-bolt" size={60} color={theme.colors.grey} />;
       case 3:
-        return <MaterialCommunityIcons name="toilet" size={60} color="black" />;
+        return <MaterialCommunityIcons name="toilet" size={60} color={theme.colors.grey} />;
       case 4:
-        return <MaterialCommunityIcons name="hammer-screwdriver" size={60} color="black" />;
+        return <MaterialCommunityIcons name="hammer-screwdriver" size={60} color={theme.colors.grey} />;
       case 5:
-        return <MaterialIcons name="format-paint" size={60} color="black" />;
+        return <MaterialIcons name="format-paint" size={60} color={theme.colors.grey} />;
       case 6:
-        return <MaterialIcons name="plumbing" size={60} color="black" />;
+        return <MaterialIcons name="plumbing" size={60} color={theme.colors.grey} />;
 
       default:
         break;
@@ -109,20 +109,20 @@ export const ProjectCard = ({ renderOn = 'home', item }) => {
           </View>
           <View style={styles.dataContainer}>
             <View style={styles.dataItem}>
-              <Ionicons name="people" size={15} color="black" style={styles.iconItem} />
+              <Ionicons name="people" size={15} color={theme.colors.grey} style={styles.iconItem} />
               <Text style={styles.textItem}>{home.acceptedWorker + '/' + home.totalWorker}</Text>
             </View>
             <View style={styles.dataItem}>
-              <FontAwesome5 name="money-bill" size={15} color="black" style={styles.iconItem} />
+              <FontAwesome5 name="money-bill" size={15} color={theme.colors.grey} style={styles.iconItem} />
               <Text style={styles.textItem}>{formatPrice(home.cost)}</Text>
             </View>
             <View style={styles.dataItem}>
-              <AntDesign name="clockcircle" size={15} color="black" style={styles.iconItem} />
+              <AntDesign name="clockcircle" size={15} color={theme.colors.grey} style={styles.iconItem} />
               <Text style={styles.textItem}>{home.tenor > 1 ? home.tenor + ' days' : '1 day'}</Text>
             </View>
           </View>
         </View>
-        <TouchableOpacity onPress={onPressDetail} style={[styles.buttonDetail, { backgroundColor: theme.colors.black }]}>
+        <TouchableOpacity onPress={onPressDetail} style={[styles.buttonDetail, { backgroundColor: theme.colors.grey }]}>
           <Text style={styles.buttonDetailText}>Details</Text>
         </TouchableOpacity>
       </View>
@@ -156,22 +156,22 @@ export const ProjectCard = ({ renderOn = 'home', item }) => {
           </View>
           <View style={styles.dataContainer}>
             <View style={styles.dataItem}>
-              <Ionicons name="people" size={15} color="black" style={styles.iconItem} />
+              <Ionicons name="people" size={15} color={theme.colors.grey} style={styles.iconItem} />
               <Text style={styles.textItem}>{job.acceptedWorker + '/' + job.Project.totalWorker}</Text>
             </View>
             <View style={styles.dataItem}>
-              <FontAwesome5 name="money-bill" size={15} color="black" style={styles.iconItem} />
+              <FontAwesome5 name="money-bill" size={15} color={theme.colors.grey} style={styles.iconItem} />
               <Text style={styles.textItem}>{formatPrice(job.Project.cost)}</Text>
             </View>
             <View style={styles.dataItem}>
-              <AntDesign name="clockcircle" size={15} color="black" style={styles.iconItem} />
+              <AntDesign name="clockcircle" size={15} color={theme.colors.grey} style={styles.iconItem} />
               <Text style={styles.textItem}>{job.Project.tenor > 1 ? job.Project.tenor + ' days' : '1 day'}</Text>
             </View>
           </View>
         </View>
         <TouchableOpacity
           onPress={() => onPressDetail(job.status[0].toUpperCase() + job.status.substring(1))}
-          style={[styles.buttonDetail, { backgroundColor: theme.colors.black }]}
+          style={[styles.buttonDetail, { backgroundColor: theme.colors.grey }]}
         >
           <Text style={styles.buttonDetailText}>Details</Text>
         </TouchableOpacity>
