@@ -35,19 +35,54 @@ export const ProjectCard = ({ renderOn = 'home', item }) => {
     }
   };
 
+  const renderStatus = (status) => {
+    const _status = status[0].toUpperCase() + status.substring(1);
+    switch (_status) {
+      case 'Accepted':
+        return (
+          <View style={[styles.statusContainer, { backgroundColor: theme.colors.white }]}>
+            <Text style={{ fontFamily: theme.font.bold, color: theme.colors.green }}>{_status}</Text>
+          </View>
+        );
+      case 'Rejected':
+        return (
+          <View style={[styles.statusContainer, { backgroundColor: theme.colors.white }]}>
+            <Text style={{ fontFamily: theme.font.bold, color: theme.colors.red }}>{_status}</Text>
+          </View>
+        );
+      case 'Applicant':
+        return (
+          <View style={[styles.statusContainer, { backgroundColor: theme.colors.white }]}>
+            <Text style={{ fontFamily: theme.font.bold, color: theme.colors.blue }}>{_status}</Text>
+          </View>
+        );
+      case 'Completed':
+        return (
+          <View style={[styles.statusContainer, { backgroundColor: theme.colors.white }]}>
+            <Text style={{ fontFamily: theme.font.bold, color: theme.colors.green }}>{_status}</Text>
+          </View>
+        );
+      case 'Occupied':
+        return (
+          <View style={[styles.statusContainer, { backgroundColor: theme.colors.white }]}>
+            <Text style={{ fontFamily: theme.font.bold, color: theme.colors.grey }}>{_status}</Text>
+          </View>
+        );
+      default:
+        break;
+    }
+  };
+
   const onPressDetail = (status) => {
     if (renderOn === 'home') {
       navigation.navigate('ProjectDetail', {
         id: item.id,
       });
     } else {
-      navigation.navigate(
-        'ProjectDetail',
-        {
-          id: item.Project.id,
-          status,
-        },
-      );
+      navigation.navigate('ProjectDetail', {
+        id: item.Project.id,
+        status,
+      });
     }
   };
 
@@ -103,9 +138,7 @@ export const ProjectCard = ({ renderOn = 'home', item }) => {
             <Text style={{ fontFamily: theme.font.bold }}>{job.Project.name}</Text>
           </View>
 
-          <View style={[styles.statusContainer, { backgroundColor: theme.colors.white }]}>
-            <Text style={{ fontFamily: theme.font.bold }}>{job.status[0].toUpperCase() + job.status.substring(1)}</Text>
-          </View>
+          {renderStatus(job.status)}
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
           <View style={{ alignItems: 'center' }}>
@@ -136,7 +169,10 @@ export const ProjectCard = ({ renderOn = 'home', item }) => {
             </View>
           </View>
         </View>
-        <TouchableOpacity onPress={() => onPressDetail(job.status[0].toUpperCase() + job.status.substring(1))} style={[styles.buttonDetail, { backgroundColor: theme.colors.black }]}>
+        <TouchableOpacity
+          onPress={() => onPressDetail(job.status[0].toUpperCase() + job.status.substring(1))}
+          style={[styles.buttonDetail, { backgroundColor: theme.colors.black }]}
+        >
           <Text style={styles.buttonDetailText}>Details</Text>
         </TouchableOpacity>
       </View>
@@ -156,7 +192,7 @@ const styles = StyleSheet.create({
     minWidth: 80,
     paddingHorizontal: 10,
     paddingVertical: 5,
-    borderRadius: 5,
+    borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
   },
