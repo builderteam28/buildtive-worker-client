@@ -22,7 +22,7 @@ export const ProjectCard = ({ renderOn = 'home', item }) => {
       case 2:
         return <MaterialCommunityIcons name="home-lightning-bolt" size={60} color={theme.colors.grey} />;
       case 3:
-        return <MaterialCommunityIcons name="toilet" size={60} color={theme.colors.grey} />;
+        return <MaterialCommunityIcons name="carpenter" size={60} color={theme.colors.grey} />;
       case 4:
         return <MaterialCommunityIcons name="hammer-screwdriver" size={60} color={theme.colors.grey} />;
       case 5:

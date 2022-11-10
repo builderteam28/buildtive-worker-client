@@ -35,8 +35,8 @@ export const Register = () => {
     },
     {
       id: 3,
-      label: 'Toilet',
-      value: 'Toilet',
+      label: 'Carpentry',
+      value: 'Carpentry',
     },
     {
       id: 4,
